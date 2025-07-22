@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildPur Tools | Schema Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0c1022;
+      color: white;
+    }
+    .accent {
+      background: #8f81fa;
+    }
+    .card {
+      background-color: #1a1f3b;
+    }
+  </style>
+</head>
+<body class="font-sans">
+  <header class="p-5 flex justify-between items-center accent text-white">
+    <h1 class="text-xl font-bold">🔧 BuildPur Tools</h1>
+    <nav class="space-x-4">
+      <a href="#" class="hover:underline">Home</a>
+      <a href="#" class="hover:underline">Tools</a>
+      <a href="#" class="hover:underline">Contact</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto mt-10 p-5 card rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Schema Generator</h2>
+    <p class="mb-6 text-gray-300 text-center">Enter your site details to generate JSON-LD schema markup for SEO.</p>
+    
+    <div class="space-y-4">
+      <input id="name" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Business Name">
+      <input id="url" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Website URL (https://example.com)">
+      <input id="logo" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Logo URL">
+      <input id="email" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Business Email">
+      <input id="description" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Business Description">
+      <input id="sameAs" class="w-full p-2 rounded bg-gray-100 text-black" placeholder="Social Links (comma separated)">
+    </div>
+    
+    <button onclick="generateSchema()" class="mt-6 w-full p-3 rounded accent text-white font-semibold hover:opacity-90">Generate Schema</button>
+    
+    <h3 class="text-xl mt-8 mb-2 font-semibold">Generated JSON-LD:</h3>
+    <pre id="output" class="bg-gray-900 text-green-300 p-4 rounded overflow-x-auto text-sm"></pre>
+  </main>
+
+  <script>
+    function generateSchema() {
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": document.getElementById('name').value,
+        "url": document.getElementById('url').value,
+        "logo": document.getElementById('logo').value,
+        "description": document.getElementById('description').value,
+        "email": document.getElementById('email').value,
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": document.getElementById('email').value,
+          "contactType": "Customer Support"
+        },
+        "sameAs": document.getElementById('sameAs').value.split(',').map(s => s.trim())
+      };
+
+      document.getElementById('output').textContent =
+        `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
+    }
+  </script>
+</body>
+</html>
